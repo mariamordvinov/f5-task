@@ -9,8 +9,8 @@
 1. in `Register` function, I added an input validation to make sure that the provided role is admin/user only
 2. in `AccountsHandler`, I moved `if claims.Role != "admin" ` to the top of the function because both operations are allowd to admins only, and `listAccounts` didnt enforce it.
 3. in `AccountsHandler`, I added a "method not allowed" error in case client sent an unsuported method.
-4. in `BalanceHandler`, I added a check that the clients role is "user" because only users are allowd to this endpoint
-5. in `getBalance`, `depositBalance`, `withdrawBalance`, I added a check to see if the user_id provided matches the user from the claims, to prevent BOLA.
+4. in `BalanceHandler`, I added a check that the clients role is "user" (unless its a get request because an admin can view all of the users balance).
+5. in `getBalance`,  `depositBalance`, `withdrawBalance`, I added a check to see if the user_id provided matches the user from the claims, to prevent BOLA. in `getBalance` I also check if the user is not an admin because admins can view all of the users balances.
 before my change any user could pass any user_id he wanted and get the data of different users.
 I also added an input validation to make sure the amount sent by the user is positive.
 
