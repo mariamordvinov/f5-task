@@ -173,7 +173,7 @@ func getBalance(w http.ResponseWriter, r *http.Request, claims *Claims) {
 	uid, _ := strconv.Atoi(userId)
 	// added this check to prevent BOLA- without this validation a user can access data that belongs to another user (unauthorized access)
 
-	if !isUserIdValid(claims, uid) {
+	if !isUserIdValid(claims, uid) && claims.Role != "admin" {
 		http.Error(w, "Unauthorized", http.StatusForbidden)
 		return
 	}
