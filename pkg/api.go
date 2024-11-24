@@ -43,7 +43,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid role !", http.StatusBadRequest)
 		return
 	}
-	// Defining IDs this way may cause security issues. it makes it easy for an attacker to guess resources IDs.
+	// Defining IDs this way may cause security issues. it makes it easy for someone to guess resources IDs.
 	// I would define user id as a UUID, so if an attacker will find a vaulnerability (BOLA for example),
 	// he wont be able to guess the resoueces IDs.
 	//
@@ -143,8 +143,8 @@ func listAccounts(w http.ResponseWriter, r *http.Request, claims *Claims) {
 
 func BalanceHandler(w http.ResponseWriter, r *http.Request, claims *Claims) {
 
-	// only users are allowed to access, so added enforcment.
-	if claims.Role != "user" {
+	// only users are allowed to deposit and withdraw, so added enforcment.
+	if claims.Role != "user" && r.Method != http.MethodGet {
 		http.Error(w, "Unauthorized", http.StatusForbidden)
 		return
 	}
